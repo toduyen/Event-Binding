@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "projects": {
+    "event-binding": {
+      "projectType": "application",
+      "root": "apps/event-binding",
+      "sourceRoot": "apps/event-binding/src",
+      "prefix": "event-binding",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/event-binding",
+            "index": "apps/event-binding/src/index.html",
+            "main": "apps/event-binding/src/main.ts",
+            "polyfills": "apps/event-binding/src/polyfills.ts",
+            "tsConfig": "apps/event-binding/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/event-binding/src/favicon.ico",
+              "apps/event-binding/src/assets"
+            ],
+            "styles": ["apps/event-binding/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/event-binding/src/environments/environment.ts",
+                  "with": "apps/event-binding/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "event-binding:build:production"
+            },
+            "development": {
+              "browserTarget": "event-binding:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "event-binding:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/event-binding/src/**/*.ts",
+              "apps/event-binding/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/event-binding"],
+          "options": {
+            "jestConfig": "apps/event-binding/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "event-binding-e2e": {
+      "root": "apps/event-binding-e2e",
+      "sourceRoot": "apps/event-binding-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/event-binding-e2e/cypress.json",
+            "devServerTarget": "event-binding:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "event-binding:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/event-binding-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["event-binding"]
+    }
+  }
+}
